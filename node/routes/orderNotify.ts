@@ -1,5 +1,4 @@
 import httpStatus from "http-status-codes";
-import { json } from "co-body";
 import { EMAG } from "../helpers/EMAGFetch";
 
 import Logger from "../helpers/Logger";
@@ -11,8 +10,7 @@ import { createVTEXOrder } from "../resolvers/orderNotify";
 const LOG_TYPE = "orderNotify";
 
 export async function orderNotify(ctx: Context) {
-  const { vtex, req, response, query } = ctx;
-  const body = await json(req);
+  const { vtex, response, query } = ctx;
   const orderId = query.order_id;
   try {
     await Logger.createDBLog(
@@ -22,10 +20,7 @@ export async function orderNotify(ctx: Context) {
       { id: orderId },
       orderId
     );
-    let eMAGOrder: EmagOrder = body.eMAGOrder;
-    if (!eMAGOrder) {
-      eMAGOrder = await EMAG.getOrder(vtex, orderId);
-    }
+    const eMAGOrder: EmagOrder  = await EMAG.getOrder(vtex, orderId);
     if (!eMAGOrder) {
       throw {
         code: "Order not found",

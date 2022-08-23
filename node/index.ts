@@ -87,7 +87,7 @@ export default new Service({
         GET: getProductNotifications,
       }),
       orderNotify: method({
-        POST: orderNotify,
+        GET: orderNotify,
       }),
       orderStatusChange: method({
         POST: orderStatusChange,

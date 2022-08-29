@@ -69,7 +69,7 @@ export async function orderNotify(ctx: Context) {
       vtex,
       LOG_TYPE,
       `Order notify ${orderId} ended successfully`,
-      { VTEXOrder, VTEXResponse },
+      { eMAGOrder, VTEXOrder, VTEXResponse },
       orderId
     );
 

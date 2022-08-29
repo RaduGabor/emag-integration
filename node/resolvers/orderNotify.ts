@@ -15,20 +15,32 @@ export async function createVTEXOrder(
   eMAGOrder: EmagOrder,
   orderId: string
 ) {
+  const whereQuery = eMAGOrder.products.map(ep => `eMAGProductID=${ep.product_id}`).join(' OR ');
+
   const savedProducts = (await VTEX.getAllDocuments(vtex, "products", {
     fields: "id,VTEXSkuID,eMAGProductID,syncStatus",
+    where: `(${whereQuery})`,
+    pagination: "0-100"
   })) as VtexEmagProduct[];
 
   const usedProducts = eMAGOrder.products?.filter(
     (eMAGProduct: EmagOrderProduct) =>
-      savedProducts.findIndex(
-        (dbProduct: VtexEmagProduct) =>
-          String(dbProduct.eMAGProductID) === String(eMAGProduct.product_id)
+    savedProducts.findIndex(
+        (dbProduct: VtexEmagProduct) => String(dbProduct.eMAGProductID) === String(eMAGProduct.product_id)
       ) > -1
-  );
-  syncProducts(vtex, savedProducts, usedProducts);
+    );
 
+  if (!usedProducts.length) {
+    throw {
+      code: "New order error",
+      message: "No products mapped for this order",
+      data: eMAGOrder,
+    };
+  }
+
+  syncProducts(vtex, savedProducts, usedProducts);
   const items = getItems(usedProducts, appSettings.valueConcatProductId);
+
   const postalCode = (POSTAL_CODE as { [label: string]: string })[
     eMAGOrder.customer.shipping_suburb
   ];
@@ -51,7 +63,7 @@ export async function createVTEXOrder(
   return {
     clientProfileData: {
       corporateDocument: null,
-      corporateName: eMAGOrder.customer.company,
+      corporateName: eMAGOrder.customer.legal_entity? eMAGOrder.customer.company : null,
       corporatePhone: null,
       document: eMAGOrder.customer.id,
       documentType: null,
@@ -59,7 +71,7 @@ export async function createVTEXOrder(
         ? eMAGOrder.customer.email
         : "emag-customer@noemail.com",
       id: "clientProfileData",
-      isCorporate: Boolean(eMAGOrder.customer.company.length),
+      isCorporate: !!eMAGOrder.customer.legal_entity,
       firstName: clientSplitName[0],
       lastName: clientSplitName[clientSplitName.length - 1],
       phone: eMAGOrder.customer.phone_1,

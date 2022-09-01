@@ -1,7 +1,7 @@
 {
   "name": "emag-connector",
   "vendor": "vtex",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "title": "eMAG Connector",
   "description": "",
   "mustUpdateAt": "",

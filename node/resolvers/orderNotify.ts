@@ -82,7 +82,10 @@ export async function createVTEXOrder(
     marketplaceOrderId: orderId,
     marketplacePaymentValue,
     marketplaceServicesEndpoint: `https://${vtex.account}.myvtex.com/api/io/emag/`,
-    openTextField: null,
+    openTextField: {
+      payment_mode: eMAGOrder.payment_mode,
+      detailed_payment_method: eMAGOrder.detailed_payment_method
+    },
     paymentData: null,
     shippingData: {
       address: {

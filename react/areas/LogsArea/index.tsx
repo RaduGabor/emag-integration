@@ -85,6 +85,12 @@ const LogsArea: FC = () => {
       }),
     },
     {
+      id: "orderCancel",
+      label: intl.formatMessage({
+        id: "admin/connector.logs.orderCancel",
+      }),
+    },
+    {
       id: "orderStatusChange",
       label: intl.formatMessage({
         id: "admin/connector.logs.orderStatusChange",
@@ -209,6 +215,8 @@ const LogsArea: FC = () => {
         return "cyan";
       case "orderStatusChange":
         return "teal";
+      case "orderCancel":
+        return "red";
       default:
         return "lightBlue";
     }

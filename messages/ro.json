@@ -33,6 +33,7 @@
   "admin/connector.logs.mapper": "Cartografiere",
   "admin/connector.logs.productNotify": "Notificare produs",
   "admin/connector.logs.orderNotify": "Notificare comandă",
+  "admin/connector.logs.orderCancel": "Notificare anulare comanda",
   "admin/connector.logs.orderStatusChange": "Schimbare status comandă",
   "admin/connector.logs.install": "Instalare",
   "admin/connector.logs.logData": "Detalii înregistrare",

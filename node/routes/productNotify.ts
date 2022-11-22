@@ -20,13 +20,14 @@ export async function productNotify(ctx: Context) {
     return { success: true };
   }
 
-  await Logger.createDBLog(
-    vtex,
-    LOG_TYPE,
-    `Product notify for SKU ${body.IdSku}`,
-    body,
-    body.IdSku
-  );
+  // Disabling this log for now. Too many product notify.
+  // await Logger.createDBLog(
+  //   vtex,
+  //   LOG_TYPE,
+  //   `Product notify for SKU ${body.IdSku}`,
+  //   body,
+  //   body.IdSku
+  // );
 
   let dbProduct: VtexEmagProduct = {
     VTEXProductID: body.ProductId,

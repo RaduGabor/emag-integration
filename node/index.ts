@@ -16,6 +16,7 @@ import { syncEmagProducts } from "./routes/syncEmagProducts";
 import { getProductNotifications } from "./routes/getProductNotifications";
 import { orderNotify } from "./routes/orderNotify";
 import { orderStatusChange } from "./routes/orderStatusChange";
+import { orderCancel } from "./routes/orderCancel";
 
 const prepare = (resolver: any) =>
   async function prepareContext(ctx: Context, next: () => Promise<any>) {
@@ -88,6 +89,9 @@ export default new Service({
       }),
       orderNotify: method({
         GET: orderNotify,
+      }),
+      orderCancel: method({
+        GET: orderCancel,
       }),
       orderStatusChange: method({
         POST: orderStatusChange,

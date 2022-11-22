@@ -45,11 +45,14 @@ export async function createVTEXOrder(
     eMAGOrder.customer.shipping_suburb
   ];
 
+  const { shipping_tax } = eMAGOrder;
+
   const logisticsInfo = await getLogisticsInfo(
     vtex,
     appSettings,
     items,
-    postalCode
+    postalCode,
+    shipping_tax
   );
 
   const clientSplitName = eMAGOrder.customer.name.split(" ");
@@ -69,11 +72,11 @@ export async function createVTEXOrder(
       documentType: null,
       email: eMAGOrder.customer.email
         ? eMAGOrder.customer.email
-        : "emag-customer@noemail.com",
+        : `emag-customer-${eMAGOrder.id}@dacris.net`,
       id: "clientProfileData",
       isCorporate: !!eMAGOrder.customer.legal_entity,
-      firstName: clientSplitName[0],
       lastName: clientSplitName[clientSplitName.length - 1],
+      firstName: clientSplitName.splice(1).join(" "),
       phone: eMAGOrder.customer.phone_1,
       stateInscription: null,
       tradeName: null,
@@ -145,7 +148,8 @@ async function getLogisticsInfo(
   vtex: IOContext,
   appSettings: AppSettings,
   items: VTEXOrderProduct[],
-  postalCode: string
+  postalCode: string,
+  shippingTax: number
 ) {
   const productsSimulation = items.map((product: VTEXOrderProduct) => ({
     id: product.id,
@@ -175,7 +179,7 @@ async function getLogisticsInfo(
     deliveryWindow: selectedSla.availableDeliveryWindows[0],
     itemIndex: item.itemIndex,
     lockTTL: "7bd",
-    price: selectedSla.price,
+    price: typeof shippingTax !== undefined ? shippingTax * 100 : selectedSla.price,
     selectedSla: selectedSla.id,
     shippingEstimate: selectedSla.shippingEstimate,
   }));

@@ -21,7 +21,7 @@ export async function orderCancel(ctx: Context) {
     const appSettings = await getAppSettings(vtex);
     const VTEXOrderId = `${appSettings.affiliateId}-${emagOrderId}`;
     const reason = "Cancelled by eMAG user";
-    const VTEXResponse = await VTEX.cancelOrder(vtex, appSettings, VTEXOrderId, reason);
+    const VTEXResponse = await VTEX.cancelOrder(vtex, VTEXOrderId, reason);
 
     if (!VTEXResponse) {
       throw {

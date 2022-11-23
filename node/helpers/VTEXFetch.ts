@@ -168,7 +168,6 @@ export const VTEX = {
   },
   cancelOrder: (
     ctx: IOContext,
-    settings: AppSettings,
     orderId: string,
     reason: string
   ): Promise<{ date: string, orderId: string, receipt: string}> => {

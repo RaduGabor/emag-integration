@@ -1,37 +1,29 @@
 import httpStatus from "http-status-codes";
-import { EMAG } from "../helpers/EMAGFetch";
 
 import Logger from "../helpers/Logger";
 import { VTEX } from "../helpers/VTEXFetch";
-import { EmagOrder } from "../typings/orderNotify";
 import { getAppSettings } from "../helpers/ConnectorHelper";
 
 const LOG_TYPE = "orderCancel";
 
 export async function orderCancel(ctx: Context) {
   const { vtex, response, query } = ctx;
-  const orderId = query.order_id;
+  const emagOrderId = query.order_id;
   try {
     await Logger.createDBLog(
       vtex,
       LOG_TYPE,
-      `Order cancel for ID ${orderId}`,
-      { id: orderId },
-      orderId
+      `Order cancel for ID ${emagOrderId}`,
+      { id: emagOrderId },
+      emagOrderId
     );
-    const eMAGOrder: EmagOrder  = await EMAG.getOrder(vtex, orderId);
-    if (!eMAGOrder) {
-      throw {
-        code: "Order not found",
-        message: `eMAG order with id ${orderId} not found`,
-        data: eMAGOrder,
-      };
-    }
 
     const appSettings = await getAppSettings(vtex);
-    const VTEXResponse = await VTEX.cancelOrder(vtex, appSettings, orderId);
+    const VTEXOrderId = `${appSettings.affiliateId}-${emagOrderId}`;
+    const reason = "Cancelled by eMAG user";
+    const VTEXResponse = await VTEX.cancelOrder(vtex, appSettings, VTEXOrderId, reason);
 
-    if (!VTEXResponse?.length) {
+    if (!VTEXResponse) {
       throw {
         code: "New order error",
         message: "VTEX order created with error",
@@ -49,15 +41,14 @@ export async function orderCancel(ctx: Context) {
     //       data: acknowledge,
     //     };
     //   }
-    //   VTEX.authorizeFulfillment(vtex, appSettings, VTEXResponse[0].orderId);
     // }
 
     await Logger.createDBLog(
       vtex,
       LOG_TYPE,
-      `Order cancel for ID ${orderId} ended successfully`,
-      { eMAGOrder, VTEXResponse },
-      orderId
+      `Order cancel for ID ${emagOrderId} ended successfully`,
+      { emagOrderId, VTEXOrderId, VTEXResponse },
+      emagOrderId
     );
 
     response.body = VTEXResponse;
@@ -66,9 +57,9 @@ export async function orderCancel(ctx: Context) {
     await Logger.createDBLog(
       vtex,
       LOG_TYPE,
-      `Order cancel for ID ${orderId} ended with error`,
+      `Order cancel for ID ${emagOrderId} ended with error`,
       error,
-      orderId
+      emagOrderId
     );
     response.body = error;
     response.status = httpStatus.BAD_REQUEST;

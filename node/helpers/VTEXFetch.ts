@@ -169,15 +169,16 @@ export const VTEX = {
   cancelOrder: (
     ctx: IOContext,
     settings: AppSettings,
-    marketplaceOrderId: string
-  ): Promise<VTEXCreatedOrder[]> => {
+    orderId: string,
+    reason: string
+  ): Promise<{ date: string, orderId: string, receipt: string}> => {
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       axios({
         headers,
         method: "POST",
-        url: `http://${ctx.account}.vtexcommercestable.com.br/api/fulfillment/pvt/orders/cancel?sc=${settings.tradePolicyId}&affiliateId=${settings.affiliateId}`,
-        data: { marketplaceOrderId },
+        url: `http://${ctx.account}.vtexcommercestable.com.br/api/oms/pvt/orders/${orderId}/cancel`,
+        data: { reason }
       })
         .then((response) => {
           resolve(response?.data);

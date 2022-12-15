@@ -18,6 +18,10 @@
       "path": "/emag/order-notify",
       "public": true
     },
+    "orderCancel": {
+      "path": "/emag/order-cancel",
+      "public": true
+    },
     "orderStatusChange": {
       "path": "/emag/order-status-change",
       "public": true

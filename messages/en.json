@@ -32,6 +32,7 @@
   "admin/connector.logs.mapper": "Mapper",
   "admin/connector.logs.productNotify": "Product notify",
   "admin/connector.logs.orderNotify": "Order notify",
+  "admin/connector.logs.orderCancel": "Order cancel",
   "admin/connector.logs.orderStatusChange": "Order status change",
   "admin/connector.logs.install": "Install",
   "admin/connector.logs.logData": "Data",

@@ -25,7 +25,7 @@ export async function getProductNotifications(ctx: Context) {
   } else if (query.search) {
     where = `VTEXSkuName=*${query.search}* OR VTEXSkuID=*${query.search}*`;
   } else if (query.filter) {
-    where = `syncStatus=${query.filter}`;
+    where = `syncStatus=*${query.filter}*`;
   }
   response.body = await VTEX.getAllDocuments(
     ctx.vtex,

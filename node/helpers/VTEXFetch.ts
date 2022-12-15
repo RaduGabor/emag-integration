@@ -166,6 +166,27 @@ export const VTEX = {
         });
     });
   },
+  cancelOrder: (
+    ctx: IOContext,
+    orderId: string,
+    reason: string
+  ): Promise<{ date: string, orderId: string, receipt: string}> => {
+    return new Promise(async (resolve, reject) => {
+      const headers = await VTEX.getHeaders(ctx);
+      axios({
+        headers,
+        method: "POST",
+        url: `http://${ctx.account}.vtexcommercestable.com.br/api/oms/pvt/orders/${orderId}/cancel`,
+        data: { reason }
+      })
+        .then((response) => {
+          resolve(response?.data);
+        })
+        .catch((error) => {
+          reject(error?.response?.data);
+        });
+    });
+  },
   authorizeFulfillment: (
     ctx: IOContext,
     settings: AppSettings,
@@ -235,6 +256,26 @@ export const VTEX = {
         method: "PUT",
         url: `http://${ctx.account}.vtexcommercestable.com.br/api/dataentities/${entity}/schemas/${entity}`,
         data,
+      })
+        .then((response) => {
+          resolve(response?.data);
+        })
+        .catch((error) => {
+          reject({
+            data: error?.response?.data,
+            status: error?.response?.status,
+            statusText: error?.response?.statusText,
+          });
+        });
+    });
+  },
+  deleteSchema: (ctx: IOContext, entity: string) => {
+    return new Promise(async (resolve, reject) => {
+      const headers = await VTEX.getHeaders(ctx);
+      axios({
+        headers,
+        method: "DELETE",
+        url: `http://${ctx.account}.vtexcommercestable.com.br/api/dataentities/${entity}/schemas/${entity}`,
       })
         .then((response) => {
           resolve(response?.data);

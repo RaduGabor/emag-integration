@@ -1,7 +1,7 @@
 {
   "name": "emag-connector",
   "vendor": "vtex",
-  "version": "0.1.1",
+  "version": "0.1.2-beta3",
   "title": "eMAG Connector",
   "description": "",
   "mustUpdateAt": "",
@@ -153,6 +153,14 @@
         "title": "Sameday delivery",
         "type": "boolean",
         "description": "If enabled, sender requests the package to be delivered the same day"
+      },
+      "emailNotificationDomain": {
+        "title": "Email notification domain",
+        "type": "string"
+      },
+      "mkpMapperId": {
+        "title": "MKP Mapper Id",
+        "type": "string"
       }
     }
   },

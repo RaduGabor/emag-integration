@@ -20,4 +20,6 @@ interface AppSettings {
   oversizedShipping: boolean;
   saturdayDelivery: boolean;
   samedayDelivery: boolean;
+  emailNotificationDomain: string;
+  mkpMapperId: string;
 }

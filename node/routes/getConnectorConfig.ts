@@ -35,7 +35,7 @@ export async function getConnectorConfig(ctx: Context) {
   } else {
     const config: ConnectorConfiguration = {
       orderProcessingNotificationEndpoint:
-        CONNECTOR_ORDER_PROCESSING_NOTIFICATION_ENDPOINT,
+        CONNECTOR_ORDER_PROCESSING_NOTIFICATION_ENDPOINT.replace('{{vtex-account}}', ctx.clients.core.vtexAccount),
     }
 
     if (!config) {

@@ -27,7 +27,7 @@ export const saveConfiguration = async (
   const { affiliateId, salesChannel } = config
 
   await ctx.clients.sentOffers
-    .createFeed({ affiliateId, salesChannel, id: FEED_ID })
+    .createFeed({ affiliateId, salesChannel, id: FEED_ID.replace('{{vtex-account}}', ctx.clients.core.vtexAccount) })
     .then(async () => {
       await ctx.clients.core.registerAffiliate(config, ctx).catch((__) => {
         throw new UserInputError('admin/app.error.affiliate.registerFail')

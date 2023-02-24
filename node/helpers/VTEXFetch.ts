@@ -316,6 +316,7 @@ export const VTEX = {
     data: object,
     skipSchema?: boolean
   ): Promise<{ DocumentId: string }> => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       let url = `http://${ctx.account}.vtexcommercestable.com.br/api/dataentities/${entity}/documents`;
@@ -343,6 +344,7 @@ export const VTEX = {
     entity: string,
     data: object
   ): Promise<{ DocumentId: string }> => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       axios({
@@ -368,6 +370,7 @@ export const VTEX = {
     entity: string,
     documentId?: string
   ): Promise<{ DocumentId: string }> => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       axios({
@@ -402,6 +405,7 @@ export const VTEX = {
     | VtexEmagProduct[]
     | { results: VtexEmagProduct[]; totalRecordCount: number }
   > => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       let url = `http://${ctx.account}.vtexcommercestable.com.br/api/dataentities/${entity}/search?_schema=${entity}`;
       if (query?.fields) {
@@ -442,6 +446,7 @@ export const VTEX = {
     });
   },
   createOrderHook: (ctx: IOContext, url: string) => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       axios({
@@ -478,6 +483,7 @@ export const VTEX = {
     field: string,
     data: any
   ): Promise<{ url: string }> => {
+    console.log(`Contextul este : ${ctx.account}`)
     return new Promise(async (resolve, reject) => {
       const headers = await VTEX.getHeaders(ctx);
       const formHeaders = data.getHeaders();

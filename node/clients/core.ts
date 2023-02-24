@@ -10,6 +10,7 @@ import {
 } from '../constants/variables'
 
 export default class CoreClient extends JanusClient {
+  vtexAccount: string
   constructor(context: IOContext, options?: InstanceOptions) {
     super(context, {
       ...options,
@@ -18,6 +19,7 @@ export default class CoreClient extends JanusClient {
           context.adminUserAuthToken ?? context.authToken ?? '',
       },
     })
+    this.vtexAccount = context.account
   }
 
   public getSalesChannelsAsync = () =>
@@ -37,7 +39,7 @@ export default class CoreClient extends JanusClient {
       id: config.affiliateId,
       followUpEmail: config.email,
       salesChannelId: config.salesChannel,
-      searchEndpoint: CONNECTOR_ENDPOINT,
+      searchEndpoint: CONNECTOR_ENDPOINT.replace('{{vtex-account}}', this.vtexAccount),
     })
 
   public getConfigFromVBase = (vbase: VBase) =>

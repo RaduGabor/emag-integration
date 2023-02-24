@@ -17,6 +17,7 @@ import { getProductNotifications } from "./routes/getProductNotifications";
 import { orderNotify } from "./routes/orderNotify";
 import { orderStatusChange } from "./routes/orderStatusChange";
 import { orderCancel } from "./routes/orderCancel";
+import { redirectToMapper } from "./routes/redirectToMapper";
 
 const prepare = (resolver: any) =>
   async function prepareContext(ctx: Context, next: () => Promise<any>) {
@@ -98,6 +99,9 @@ export default new Service({
       }),
       readDBLogs: method({
         GET: readDBLogs,
+      }),
+      redirectToMapper: method({
+        GET: redirectToMapper,
       }),
     }),
   },

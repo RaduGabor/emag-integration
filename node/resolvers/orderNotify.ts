@@ -72,7 +72,7 @@ export async function createVTEXOrder(
       documentType: null,
       email: eMAGOrder.customer.email
         ? eMAGOrder.customer.email
-        : `emag-customer-${eMAGOrder.id}@dacris.net`,
+        : `emag-customer-${eMAGOrder.id}@${appSettings.emailNotificationDomain}`,
       id: "clientProfileData",
       isCorporate: !!eMAGOrder.customer.legal_entity,
       lastName: clientSplitName[clientSplitName.length - 1],

@@ -36,6 +36,10 @@
     },
     "readDBLogs": {
       "path": "/logs",
+      "public": false
+    },
+    "redirectToMapper": {
+      "path": "/vtex/rtmapper",
       "public": true
     }
   }

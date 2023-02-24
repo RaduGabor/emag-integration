@@ -23,4 +23,5 @@ interface AppSettings {
   emailNotificationDomain: string;
   mkpMapperId: string;
   useEANforPNK: boolean;
+  sendOnlyProducts: boolean;
 }

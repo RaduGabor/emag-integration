@@ -68,9 +68,12 @@ export async function createEmagProduct(
   const id = Number(`${appSettings.valueConcatProductId}${sku.Id}`);
   const { allImages, avatar } = getImages(sku);
 
-  const pnk = appSettings.useEANforPNK
-    ? sku.AlternateIds?.Ean
-    : sku.ManufacturerCode;
+  let pnk = null;
+  if (!appSettings.sendOnlyProducts) {
+    pnk = appSettings.useEANforPNK
+      ? sku.AlternateIds?.Ean
+      : sku.ManufacturerCode;
+  }
 
   const extraData = {
     VTEXSkuImage: avatar,

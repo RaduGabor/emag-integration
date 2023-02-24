@@ -166,6 +166,11 @@
         "title": "Use EAN field for PNK",
         "type": "boolean",
         "description": "If selected, instead of ManufacturerCode, EAN field is used instead"
+      },
+      "sendOnlyProducts": {
+        "title": "Disable sending offers to eMag",
+        "type": "boolean",
+        "description": "If selected, VTEX will send only products to eMag and no PNK"
       }
     }
   },

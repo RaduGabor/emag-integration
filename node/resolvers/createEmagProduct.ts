@@ -122,7 +122,7 @@ export async function createEmagProduct(
     ],
     part_number: sku.AlternateIds.RefId || sku.Id,
     part_number_key: sku.AlternateIds?.Ean ? sku.AlternateIds?.Ean : undefined,
-    ean: sku.AlternateIds.Ean ? [sku.AlternateIds.Ean] : [],
+    ean: sku.AlternateIds?.Ean ? [sku.AlternateIds.Ean] : [],
     ...price,
     family: familyId
       ? {
@@ -132,7 +132,7 @@ export async function createEmagProduct(
         }
       : undefined,
   };
-  if (!sku.ManufacturerCode) {
+  if (!sku?.AlternateIds?.Ean) {
     return { eMAGProduct, extraData };
   }
 

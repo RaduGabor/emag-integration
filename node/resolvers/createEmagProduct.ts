@@ -74,7 +74,7 @@ export async function createEmagProduct(
     eMAGProductName: productName,
     eMAGCategoryID: category[0].mappedCategoryId,
     VTEXCategoryID: category[0].categoryId,
-    type: sku.ManufacturerCode ? "OFFER" : "PRODUCT",
+    type: sku.AlternateIds?.Ean ? "OFFER" : "PRODUCT",
   };
 
   if (!sku.IsActive) {
@@ -121,7 +121,7 @@ export async function createEmagProduct(
       },
     ],
     part_number: sku.AlternateIds.RefId || sku.Id,
-    part_number_key: sku.ManufacturerCode ? sku.ManufacturerCode : undefined,
+    part_number_key: sku.AlternateIds?.Ean ? sku.AlternateIds?.Ean : undefined,
     ean: sku.AlternateIds.Ean ? [sku.AlternateIds.Ean] : [],
     ...price,
     family: familyId
@@ -205,12 +205,16 @@ async function getPrice(
   sale_price: number;
   recommended_price: number;
 }> {
-  const vtexSkuPrice: VtexSkuPrice = await VTEX.getPrice(vtex, appSettings, IdSku);
+  const vtexSkuPrice: VtexSkuPrice = await VTEX.getPrice(
+    vtex,
+    appSettings,
+    IdSku
+  );
   if (!vtexSkuPrice) {
     throw {
       IdSku,
       status: httpStatus.NOT_FOUND,
-      errorMessage: "Price not found"
+      errorMessage: "Price not found",
     };
   }
 

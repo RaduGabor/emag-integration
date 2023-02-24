@@ -161,6 +161,11 @@
       "mkpMapperId": {
         "title": "MKP Mapper Id",
         "type": "string"
+      },
+      "useEANforPNK": {
+        "title": "Use EAN field for PNK",
+        "type": "boolean",
+        "description": "If selected, instead of ManufacturerCode, EAN field is used instead"
       }
     }
   },

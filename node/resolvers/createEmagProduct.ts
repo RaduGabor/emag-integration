@@ -68,13 +68,17 @@ export async function createEmagProduct(
   const id = Number(`${appSettings.valueConcatProductId}${sku.Id}`);
   const { allImages, avatar } = getImages(sku);
 
+  const pnk = appSettings.useEANforPNK
+    ? sku.AlternateIds?.Ean
+    : sku.ManufacturerCode;
+
   const extraData = {
     VTEXSkuImage: avatar,
     VTEXSkuName: sku.NameComplete,
     eMAGProductName: productName,
     eMAGCategoryID: category[0].mappedCategoryId,
     VTEXCategoryID: category[0].categoryId,
-    type: sku.AlternateIds?.Ean ? "OFFER" : "PRODUCT",
+    type: pnk ? "OFFER" : "PRODUCT",
   };
 
   if (!sku.IsActive) {
@@ -121,7 +125,7 @@ export async function createEmagProduct(
       },
     ],
     part_number: sku.AlternateIds.RefId || sku.Id,
-    part_number_key: sku.AlternateIds?.Ean ? sku.AlternateIds?.Ean : undefined,
+    part_number_key: pnk ? pnk : undefined,
     ean: sku.AlternateIds?.Ean ? [sku.AlternateIds.Ean] : [],
     ...price,
     family: familyId
@@ -132,7 +136,7 @@ export async function createEmagProduct(
         }
       : undefined,
   };
-  if (!sku?.AlternateIds?.Ean) {
+  if (!pnk) {
     return { eMAGProduct, extraData };
   }
 

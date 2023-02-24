@@ -22,4 +22,5 @@ interface AppSettings {
   samedayDelivery: boolean;
   emailNotificationDomain: string;
   mkpMapperId: string;
+  useEANforPNK: boolean;
 }
